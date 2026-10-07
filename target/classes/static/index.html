@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebForge - Website Templates &amp; Interactive Studio</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .template-card:hover .preview-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+                    <i class="fa-solid fa-shapes text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-slate-900 font-heading">WebForge</span>
+                    <span class="hidden sm:inline-block ml-2 text-xs font-semibold px-2 py-0.5 bg-blue-50 text-blue-700 rounded-full border border-blue-200">Java + Spring Boot</span>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                <a href="#templates" class="text-blue-600 hover:text-blue-700 flex items-center gap-1.5">
+                    <i class="fa-solid fa-layer-group text-xs"></i> Templates Gallery
+                </a>
+                <a href="#my-websites" onclick="switchTab('my-sites')" class="hover:text-slate-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-folder-open text-xs"></i> My Saved Sites (<span id="savedCountBadge">0</span>)
+                </a>
+                <a href="/h2-console" target="_blank" class="hover:text-slate-900 flex items-center gap-1.5">
+                    <i class="fa-solid fa-database text-xs"></i> H2 DB
+                </a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="switchTab('my-sites')" class="px-4 py-2 text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-regular fa-folder"></i> My Sites
+                </button>
+                <a href="editor.html?template=business-agency" class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md shadow-blue-600/20 transition flex items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Open Studio
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-6 py-10">
+
+        <!-- TAB: TEMPLATE GALLERY -->
+        <div id="galleryView">
+            <!-- Hero Banner -->
+            <section class="text-center py-12 md:py-16 max-w-4xl mx-auto space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/80 text-blue-700 text-xs font-semibold tracking-wide uppercase">
+                    <i class="fa-solid fa-sparkles"></i> High Performance Website Templates
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15] font-heading">
+                    Choose a Template. <br />
+                    <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">Customize &amp; Launch Live.</span>
+                </h1>
+                <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                    Pick any professionally crafted template below. Customize text, branding, colors, and layout in our real-time visual studio, and export 100% clean HTML/CSS code.
+                </p>
+
+                <!-- Search and Filter Toolbar -->
+                <div class="pt-6 max-w-2xl mx-auto">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input id="searchInput" type="text" placeholder="Search templates by name, keyword, or purpose..."
+                               class="w-full pl-11 pr-4 py-3.5 bg-white rounded-2xl border border-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition" />
+                        <button id="clearSearchBtn" class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Pills Filter -->
+                <div id="categoriesContainer" class="flex flex-wrap items-center justify-center gap-2 pt-4">
+                    <!-- Dynamic categories loaded via JS -->
+                </div>
+            </section>
+
+            <!-- Template Grid Section -->
+            <section id="templates" class="pt-6 pb-20">
+                <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900 font-heading" id="galleryHeading">All Website Templates</h2>
+                        <p class="text-sm text-slate-500" id="templateCountLabel">Showing templates</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <label class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Sort By:</label>
+                        <select id="sortSelect" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="popular">Most Popular</option>
+                            <option value="rating">Highest Rated</option>
+                            <option value="name">Name (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cards Grid -->
+                <div id="templatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Loaded dynamically via JavaScript -->
+                    <div class="col-span-full py-20 text-center text-slate-400">
+                        <i class="fa-solid fa-circle-notch fa-spin text-3xl mb-3 text-blue-500"></i>
+                        <p>Loading website templates...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB: MY SAVED WEBSITES -->
+        <div id="mySitesView" class="hidden pb-20">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200">
+                <div>
+                    <button onclick="switchTab('gallery')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 mb-2 inline-flex items-center gap-1.5">
+                        <i class="fa-solid fa-arrow-left"></i> Back to Templates Gallery
+                    </button>
+                    <h2 class="text-3xl font-extrabold text-slate-900 font-heading">My Saved Websites</h2>
+                    <p class="text-sm text-slate-500">Manage and export websites you customized in the studio</p>
+                </div>
+                <a href="#templates" onclick="switchTab('gallery')" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl shadow-sm transition inline-flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Create New From Template
+                </a>
+            </div>
+
+            <!-- Saved sites grid -->
+            <div id="savedSitesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- LIVE PREVIEW MODAL -->
+    <div id="previewModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+        <div class="bg-white w-full h-[95vh] max-w-7xl rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                    <span id="previewModalTitle" class="font-bold text-base tracking-wide">Template Preview</span>
+                    <span id="previewModalBadge" class="text-xs bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-full border border-slate-700 font-medium">Responsive</span>
+                </div>
+
+                <!-- Device switcher buttons -->
+                <div class="flex items-center bg-slate-800 p-1 rounded-xl border border-slate-700">
+                    <button onclick="setPreviewDevice('desktop')" id="devBtnDesktop" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-desktop"></i> <span class="hidden sm:inline">Desktop</span>
+                    </button>
+                    <button onclick="setPreviewDevice('tablet')" id="devBtnTablet" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-tablet-screen-button"></i> <span class="hidden sm:inline">Tablet (768px)</span>
+                    </button>
+                    <button onclick="setPreviewDevice('mobile')" id="devBtnMobile" class="px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-mobile-screen"></i> <span class="hidden sm:inline">Mobile (390px)</span>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <a id="previewModalEditBtn" href="#" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-pen-to-square"></i> Customize This Template
+                    </a>
+                    <button onclick="closePreviewModal()" class="w-8 h-8 rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 flex items-center justify-center transition">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Frame Area -->
+            <div class="flex-1 bg-slate-100 flex items-center justify-center overflow-auto p-4">
+                <div id="previewDeviceWrapper" class="w-full h-full bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 border border-slate-300">
+                    <iframe id="previewIframe" class="w-full h-full border-0" src="about:blank"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-medium border border-slate-700">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toastMsg">Action completed successfully</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>

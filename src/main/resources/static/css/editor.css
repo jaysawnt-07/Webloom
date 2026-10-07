@@ -1,0 +1,165 @@
+/* WebForge Visual Studio & Editor Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  --canvas-bg: #f1f5f9;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Canvas viewport simulation */
+#canvasContainer {
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.view-desktop {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0;
+}
+
+.view-tablet {
+  width: 768px !important;
+  max-width: 768px !important;
+  border-radius: 16px;
+  margin: 20px auto !important;
+  border: 8px solid #334155;
+}
+
+.view-mobile {
+  width: 390px !important;
+  max-width: 390px !important;
+  border-radius: 32px;
+  margin: 20px auto !important;
+  border: 10px solid #1e293b;
+}
+
+/* Section Highlight in Editor Mode */
+.editable-section {
+  position: relative;
+  transition: outline 0.15s ease;
+}
+
+body.editor-mode .editable-section:hover {
+  outline: 2px dashed #3b82f6;
+  outline-offset: -2px;
+}
+
+body.editor-mode .editable-section.active-section {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+/* Section Floating Action Bar */
+.section-actions-bar {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 40;
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 8px;
+  padding: 4px 6px;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.editor-mode .editable-section:hover .section-actions-bar {
+  display: flex;
+}
+
+/* Inline editable element styling */
+body.editor-mode [contenteditable="true"] {
+  outline: 1px dashed transparent;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  cursor: text;
+}
+
+body.editor-mode [contenteditable="true"]:hover {
+  outline: 1px dashed #60a5fa;
+  background-color: rgba(96, 165, 250, 0.08);
+}
+
+body.editor-mode [contenteditable="true"]:focus {
+  outline: 2px solid #2563eb;
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+/* Hide editor controls in preview mode */
+body.preview-mode .section-actions-bar,
+body.preview-mode .add-section-divider {
+  display: none !important;
+}
+
+body.preview-mode .editable-section {
+  outline: none !important;
+}
+
+body.preview-mode [contenteditable="true"] {
+  outline: none !important;
+  cursor: default !important;
+}
+
+/* Add section divider between sections */
+.add-section-divider {
+  opacity: 0;
+  height: 24px;
+  margin: -12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 30;
+  transition: opacity 0.2s ease;
+}
+
+.add-section-divider:hover {
+  opacity: 1;
+}
+
+.add-section-divider button {
+  background: #2563eb;
+  color: white;
+  border-radius: 9999px;
+  padding: 2px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+/* Palette Swatch */
+.palette-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: transform 0.15s ease, ring 0.15s ease;
+}
+.palette-btn:hover {
+  transform: scale(1.15);
+}
+.palette-btn.active {
+  box-shadow: 0 0 0 3px white, 0 0 0 5px #2563eb;
+}

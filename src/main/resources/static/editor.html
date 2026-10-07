@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-800">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webloom Studio — Industry-Grade Visual Customizer</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/editor.css">
+</head>
+<body class="h-full flex flex-col editor-mode selection:bg-indigo-600 selection:text-white">
+
+    <!-- TOP TOOLBAR -->
+    <header class="h-16 bg-slate-900 text-white px-6 flex items-center justify-between border-b border-slate-800 z-50 flex-shrink-0">
+        <!-- Left: Brand Logo & Website Title -->
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="flex items-center gap-2 text-slate-400 hover:text-white transition font-semibold text-xs pr-3 border-r border-slate-700">
+                <i class="fa-solid fa-arrow-left"></i> Gallery
+            </a>
+
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-md shadow-indigo-500/25">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input id="siteTitleInput" type="text" value="My Webloom Site" 
+                           class="bg-transparent hover:bg-slate-800 focus:bg-slate-800 text-white font-bold text-sm px-2.5 py-1 rounded-lg border border-transparent focus:border-slate-700 outline-none transition w-44 sm:w-60" />
+                    <span id="saveStatusBadge" class="text-[11px] font-semibold text-slate-400 px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700">Ready</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Device Viewport Switcher -->
+        <div class="hidden md:flex items-center bg-slate-800 p-1 rounded-xl border border-slate-700">
+            <button onclick="setViewport('desktop')" id="vpDesktop" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-indigo-600 text-white transition flex items-center gap-1.5">
+                <i class="fa-solid fa-desktop"></i> Desktop
+            </button>
+            <button onclick="setViewport('tablet')" id="vpTablet" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                <i class="fa-solid fa-tablet-screen-button"></i> Tablet
+            </button>
+            <button onclick="setViewport('mobile')" id="vpMobile" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                <i class="fa-solid fa-mobile-screen"></i> Mobile
+            </button>
+        </div>
+
+        <!-- Right: Studio Actions -->
+        <div class="flex items-center gap-2 sm:gap-3">
+            <!-- Toggle Preview Mode -->
+            <button onclick="togglePreviewMode()" id="previewToggleBtn" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-regular fa-eye"></i> <span class="hidden sm:inline">Preview</span>
+            </button>
+
+            <!-- Theme Drawer Button -->
+            <button onclick="switchSidebarTab('theme')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-xl text-xs font-semibold transition flex items-center gap-1.5">
+                <i class="fa-solid fa-palette text-amber-400"></i> <span class="hidden sm:inline">Styles</span>
+            </button>
+
+            <!-- Save Website Button -->
+            <button onclick="saveWebsite()" id="saveBtn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-indigo-600/30">
+                <i class="fa-regular fa-floppy-disk"></i> Save
+            </button>
+
+            <!-- Export Code Button -->
+            <button onclick="exportWebsite()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shadow-emerald-600/30">
+                <i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Export ZIP</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- STUDIO MAIN WORKSPACE -->
+    <div class="flex-1 flex overflow-hidden">
+
+        <!-- LEFT SIDEBAR -->
+        <aside id="sidebar" class="w-80 sm:w-88 bg-white border-r border-slate-200 flex flex-col z-30 flex-shrink-0 transition-all duration-300 shadow-xl">
+            <!-- Sidebar Navigation Tabs -->
+            <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-bold text-slate-600">
+                <button onclick="switchSidebarTab('sections')" id="tabBtnSections" class="flex-1 py-3 text-center border-b-2 border-indigo-600 text-indigo-600 bg-white flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-layer-group"></i> Sections
+                </button>
+                <button onclick="switchSidebarTab('inspector')" id="tabBtnInspector" class="flex-1 py-3 text-center border-b-2 border-transparent hover:text-slate-900 flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-sliders"></i> Inspector
+                </button>
+                <button onclick="switchSidebarTab('theme')" id="tabBtnTheme" class="flex-1 py-3 text-center border-b-2 border-transparent hover:text-slate-900 flex items-center justify-center gap-1.5 transition">
+                    <i class="fa-solid fa-palette"></i> Design
+                </button>
+            </div>
+
+            <!-- Tab 1: Sections Manager -->
+            <div id="tabSections" class="flex-1 overflow-y-auto p-4 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Page Sections</h3>
+                    <button onclick="openAddSectionModal()" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                </div>
+
+                <div id="sectionsList" class="space-y-2">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+
+                <div class="pt-3">
+                    <button onclick="openAddSectionModal()" class="w-full py-3 border-2 border-dashed border-slate-300 hover:border-indigo-500 rounded-xl text-xs font-bold text-slate-600 hover:text-indigo-600 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-plus"></i> Insert New Block
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab 2: Item & Block Inspector -->
+            <div id="tabInspector" class="hidden flex-1 overflow-y-auto p-4 space-y-5">
+                <div id="inspectorEmptyState" class="py-12 text-center text-slate-400">
+                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 text-lg mx-auto mb-3">
+                        <i class="fa-solid fa-arrow-pointer"></i>
+                    </div>
+                    <p class="text-xs font-semibold text-slate-600">Select any section or block</p>
+                    <p class="text-[11px] text-slate-400 mt-1 max-w-xs mx-auto">Click any element in the live canvas or sidebar to inspect and customize its full properties.</p>
+                </div>
+
+                <div id="inspectorContent" class="hidden space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div>
+                            <span id="inspectorTypeBadge" class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 uppercase tracking-wider">Hero</span>
+                            <h4 id="inspectorSectionTitle" class="text-sm font-bold text-slate-900 mt-1">Section Details</h4>
+                        </div>
+                        <button onclick="duplicateCurrentActiveSection()" class="text-xs text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1" title="Duplicate this section">
+                            <i class="fa-regular fa-copy"></i> Duplicate
+                        </button>
+                    </div>
+
+                    <div id="inspectorFormFields" class="space-y-3">
+                        <!-- Dynamic fields based on active section -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Design & Styling -->
+            <div id="tabTheme" class="hidden flex-1 overflow-y-auto p-4 space-y-6">
+                <!-- Color Palette -->
+                <div class="space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Primary Brand Color</label>
+                    <div class="flex flex-wrap gap-2.5" id="colorPalettes">
+                        <button onclick="setPrimaryColor('#6366f1')" class="palette-btn bg-indigo-600 active" title="Electric Indigo"></button>
+                        <button onclick="setPrimaryColor('#2563eb')" class="palette-btn bg-blue-600" title="Corporate Blue"></button>
+                        <button onclick="setPrimaryColor('#d946ef')" class="palette-btn bg-fuchsia-600" title="Cyber Fuchsia"></button>
+                        <button onclick="setPrimaryColor('#10b981')" class="palette-btn bg-emerald-600" title="Emerald Mint"></button>
+                        <button onclick="setPrimaryColor('#f59e0b')" class="palette-btn bg-amber-500" title="Warm Amber"></button>
+                        <button onclick="setPrimaryColor('#f43f5e')" class="palette-btn bg-rose-500" title="Crimson Rose"></button>
+                        <button onclick="setPrimaryColor('#0ea5e9')" class="palette-btn bg-sky-500" title="Sky Ocean"></button>
+                        <button onclick="setPrimaryColor('#0f172a')" class="palette-btn bg-slate-900" title="Obsidian Noir"></button>
+                    </div>
+
+                    <div class="flex items-center gap-2 pt-2">
+                        <input type="color" id="customColorPicker" value="#6366f1" onchange="setPrimaryColor(this.value)" class="w-8 h-8 rounded border-0 cursor-pointer" />
+                        <input type="text" id="customColorHex" value="#6366f1" oninput="setPrimaryColor(this.value)" class="text-xs font-mono px-3 py-1.5 rounded-lg border border-slate-200 w-28 uppercase font-bold" />
+                    </div>
+                </div>
+
+                <!-- Font Family -->
+                <div class="space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Global Typography</label>
+                    <select id="fontSelect" onchange="setFontFamily(this.value)" class="w-full text-xs font-bold p-2.5 rounded-xl border border-slate-200 bg-white">
+                        <option value="Outfit">Outfit (Modern Bold &amp; Expressive)</option>
+                        <option value="Inter">Inter (Ultra-Clean &amp; High Legibility)</option>
+                        <option value="Plus Jakarta Sans">Plus Jakarta Sans (Contemporary Tech)</option>
+                        <option value="Playfair Display">Playfair Display (Luxury &amp; Editorial)</option>
+                        <option value="Space Grotesk">Space Grotesk (Neo-Brutalist Tech)</option>
+                    </select>
+                </div>
+
+                <!-- Button Border Radius -->
+                <div class="space-y-3">
+                    <label class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Button Corner Radius</label>
+                    <div class="grid grid-cols-4 gap-2 text-xs font-bold">
+                        <button onclick="setButtonRadius('0px')" class="radius-btn py-2 text-center rounded border border-slate-200 hover:bg-slate-50">Sharp</button>
+                        <button onclick="setButtonRadius('6px')" class="radius-btn py-2 text-center rounded-md border border-slate-200 hover:bg-slate-50">Soft</button>
+                        <button onclick="setButtonRadius('12px')" class="radius-btn py-2 text-center rounded-xl border border-slate-200 hover:bg-slate-50">Curved</button>
+                        <button onclick="setButtonRadius('9999px')" class="radius-btn py-2 text-center rounded-full border border-slate-200 hover:bg-slate-50">Pill</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CANVAS WORKSPACE -->
+        <main class="flex-1 bg-slate-200/90 overflow-y-auto p-4 md:p-8 flex justify-center items-start">
+            <div id="canvasContainer" class="bg-white min-h-[90vh] view-desktop shadow-2xl transition-all duration-300 relative overflow-hidden">
+                <!-- Live sections rendered here -->
+                <div id="canvasInner">
+                    <!-- Rendered sections -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD SECTION -->
+    <div id="addSectionModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden border border-slate-200">
+            <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shapes text-indigo-400"></i>
+                    <h3 class="font-bold text-sm">Webloom Block Library — Insert Section</h3>
+                </div>
+                <button onclick="closeAddSectionModal()" class="text-slate-400 hover:text-white text-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-h-[70vh] overflow-y-auto">
+                <!-- Hero Block -->
+                <div onclick="insertSection('hero')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-heading"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Hero Header</h4>
+                    <p class="text-xs text-slate-500 mt-1">High-impact headline, subtext, dual CTA buttons, and featured graphic.</p>
+                </div>
+
+                <!-- Features / Services Block -->
+                <div onclick="insertSection('services')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-grip"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Features Grid</h4>
+                    <p class="text-xs text-slate-500 mt-1">Bento &amp; 3-column benefit cards with icons and descriptions.</p>
+                </div>
+
+                <!-- Metrics / Stats Block -->
+                <div onclick="insertSection('stats')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-chart-simple"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Metric Counters</h4>
+                    <p class="text-xs text-slate-500 mt-1">4 prominent achievement statistics on dark or contrast background.</p>
+                </div>
+
+                <!-- Portfolio / Gallery Block -->
+                <div onclick="insertSection('portfolio')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-images"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Case Studies &amp; Works</h4>
+                    <p class="text-xs text-slate-500 mt-1">Image cards with category chips and interactive zoom hover.</p>
+                </div>
+
+                <!-- Pricing Block -->
+                <div onclick="insertSection('pricing')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-tags"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Pricing Table</h4>
+                    <p class="text-xs text-slate-500 mt-1">3 tier comparison cards with feature checkmarks and CTA buttons.</p>
+                </div>
+
+                <!-- Testimonials Block -->
+                <div onclick="insertSection('testimonials')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Social Proof</h4>
+                    <p class="text-xs text-slate-500 mt-1">Client reviews with 5-star ratings, quotes, names, and avatars.</p>
+                </div>
+
+                <!-- Contact Form Block -->
+                <div onclick="insertSection('contact')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Contact / Inquiry</h4>
+                    <p class="text-xs text-slate-500 mt-1">Lead capture form with inputs and action button.</p>
+                </div>
+
+                <!-- Footer Block -->
+                <div onclick="insertSection('footer')" class="p-4 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 cursor-pointer transition group">
+                    <div class="w-10 h-10 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center text-lg mb-2 group-hover:scale-110 transition">
+                        <i class="fa-solid fa-window-minimize"></i>
+                    </div>
+                    <h4 class="font-bold text-sm text-slate-900">Website Footer</h4>
+                    <p class="text-xs text-slate-500 mt-1">Bottom bar with copyright notice and navigation links.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-xl flex items-center gap-3 text-sm font-semibold border border-slate-700">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400"></i>
+            <span id="toastMsg">Action completed</span>
+        </div>
+    </div>
+
+    <!-- Interactive Editor Logic -->
+    <script src="js/editor.js"></script>
+</body>
+</html>
